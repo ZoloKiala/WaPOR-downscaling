@@ -1,0 +1,14 @@
+numpy
+pandas
+rasterio
+scikit-learn
+catboost
+joblib
+matplotlib
+scipy
+wandb
+requests
+urllib3
+gradio_client
+# Optional: only needed if you use --run-tpot
+# tpot

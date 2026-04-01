@@ -1,0 +1,12 @@
+wapor_downscale_data/
+outputs_catboost_datesplit/
+outputs_perfile_eval/
+outputs_perfile_eval_lamego/
+per_file_eval_outputs/
+catboost_info/
+wandb/
+*.joblib
+*.csv
+*.png
+*.tif
+*.aux.xml
