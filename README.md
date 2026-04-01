@@ -4,7 +4,7 @@ This repository contains the CatBoost-based workflow used to downscale WaPOR ETa
 
 ## Quick Start
 
-1. Request an API key or access token if the hosted inference service requires authentication.
+1. Request an API key from `z.kiala@cgiar.org` if the hosted inference service requires authentication.
 2. Install the Gradio client:
 
 ```bash
