@@ -954,8 +954,9 @@ def plot_timeseries(csv_path: Path, out_prefix: Path, title_prefix="BAIXO (hold-
 # W&B (optional)
 # ============================================================
 def setup_wandb(args):
-    if not args.wandb:
-        print("[W&B] disabled (run with --wandb and a valid --wandb-entity to enable logging and model upload).")
+    wants_artifact_download = bool(args.wandb_train_dataset or args.wandb_eval_dataset)
+    if not args.wandb and not wants_artifact_download:
+        print("[W&B] disabled (run with --wandb to enable logging, or provide --wandb-train-dataset/--wandb-eval-dataset to download artifacts).")
         return None, None, None
 
     if (not args.wandb_entity):
@@ -1006,6 +1007,8 @@ def setup_wandb(args):
     )
     print("[W&B] run url:", run.url)
     print("[W&B] entity:", args.wandb_entity, "| project:", args.wandb_project)
+    if wants_artifact_download and not args.wandb:
+        print("[W&B] artifact download enabled without experiment logging.")
     if args.wandb_log_local_datasets:
         print("[W&B] local dataset artifact upload enabled.")
         print("[W&B] make the target project public if you want anyone to download these artifacts.")

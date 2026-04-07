@@ -115,6 +115,30 @@ python wapor_downscale_catboost_datesplit_both.py \
   --wandb-eval-artifact-name lamego_stack_s2_match_l3_20m_full_1
 ```
 
+Download train and eval datasets from W&B artifacts without enabling experiment logging:
+
+```bash
+python wapor_downscale_catboost_datesplit_both.py \
+  --out-dir outputs_catboost_datesplit \
+  --task-type CPU \
+  --n-samples-total 300000 \
+  --subset-trials 40 \
+  --val-frac 0.15 \
+  --per-file-min 500 \
+  --per-file-max 4000 \
+  --max-slope-deg 25 \
+  --veg-sample-frac 0.7 \
+  --veg-ndvi-thr 0.35 \
+  --veg-fvc-thr 0.2 \
+  --min-groups 2 \
+  --n-jobs -1 \
+  --seed 7 \
+  --wandb-entity zolokiala-iwmi \
+  --wandb-project wapor-downscale-catboost \
+  --wandb-train-dataset zolokiala-iwmi/wapor-downscale-catboost/baixo_stack_s2_match_l3_20m_full_1:latest \
+  --wandb-eval-dataset zolokiala-iwmi/wapor-downscale-catboost/lamego_stack_s2_match_l3_20m_full_1:latest
+```
+
 Primary trained model output:
 
 ```text
