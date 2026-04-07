@@ -24,6 +24,9 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import matplotlib
+
+matplotlib.use("Agg")
 
 # --- Compatibility patch for NumPy >= 2.0 (for TPOT and old libs) ---
 if not hasattr(np, "float"):
@@ -1535,11 +1538,13 @@ def main():
         df_rows.to_csv(per_csv, index=False)
         print("[EVAL] saved:", per_csv)
 
-        r2_png, rmse_png = plot_timeseries(
+        plot_outputs = plot_timeseries(
             per_csv,
-            out_dir / f"{png_prefix}_r2_timeseries.png",
+            out_dir / f"{png_prefix}_timeseries",
             title_prefix=f"{tag_label} (CatBoost)"
         )
+        r2_png = plot_outputs["r2"]
+        rmse_png = plot_outputs["rmse"]
         print("[EVAL] plots:", r2_png, rmse_png)
 
         if wandb_run is not None:
