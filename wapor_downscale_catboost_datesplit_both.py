@@ -955,8 +955,13 @@ def plot_timeseries(csv_path: Path, out_prefix: Path, title_prefix="BAIXO (hold-
 # ============================================================
 def setup_wandb(args):
     wants_artifact_download = bool(args.wandb_train_dataset or args.wandb_eval_dataset)
-    if not args.wandb and not wants_artifact_download:
-        print("[W&B] disabled (run with --wandb to enable logging, or provide --wandb-train-dataset/--wandb-eval-dataset to download artifacts).")
+    mode = (args.wandb_mode or "online").lower()
+    if mode not in ("online", "offline", "disabled"):
+        mode = "online"
+    wants_logging = (mode != "disabled")
+
+    if not wants_logging and not wants_artifact_download:
+        print("[W&B] disabled (set --wandb-mode online/offline to enable logging, or provide --wandb-train-dataset/--wandb-eval-dataset to download artifacts).")
         return None, None, None
 
     if (not args.wandb_entity):
@@ -968,10 +973,6 @@ def setup_wandb(args):
     import wandb
     import requests
     from urllib3.exceptions import ProtocolError
-
-    mode = (args.wandb_mode or "online").lower()
-    if mode not in ("online", "offline", "disabled"):
-        mode = "online"
 
     run = wandb.init(
         entity=args.wandb_entity,
@@ -1007,7 +1008,9 @@ def setup_wandb(args):
     )
     print("[W&B] run url:", run.url)
     print("[W&B] entity:", args.wandb_entity, "| project:", args.wandb_project)
-    if wants_artifact_download and not args.wandb:
+    if wants_logging and not args.wandb:
+        print("[W&B] logging enabled by default; use --wandb-mode disabled to turn it off.")
+    if wants_artifact_download and not wants_logging:
         print("[W&B] artifact download enabled without experiment logging.")
     if args.wandb_log_local_datasets:
         print("[W&B] local dataset artifact upload enabled.")
